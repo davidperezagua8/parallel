@@ -1,0 +1,74 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define X 101
+#define T 101
+
+static double U[X+1][T+2];
+// declare matrix U
+int main()
+{
+int t, x;
+double L= 0.345678, S;
+
+
+// initialize positions of matrix U
+for (x=1; x<X; x++)
+{ U[x][0] = sin(x*M_PI/(double)X); U[x][1] = U[x][0] * cos(M_PI /(double)T); }
+// aqui he añadido T+1 en vez de T por que si no dejaba el ultimo 0 de la fila primera y ultima, ultima columna vacio
+for (t=0; t<=T+1; t++)
+{ U[0][t] = U[X][t] = 0.0; }
+
+
+
+// Program Body
+
+if((X+1)%2==0){ 
+printf(" el numero de filas es par\n");
+
+	for(t=2;t<=T+1;t++){
+
+		for(x=1;x<(X+1)/2-1;x++){
+			//metodo normal para todas las filas menos la especial
+			U[x][t]= 2*(1-L)*U[x][t-1]+L*U[x+1][t-1]+L*U[x-1][t-1]-U[x][t-2];
+			U[X-x+1][t]=U[x][t];
+		}
+	// esta es la especial
+	U[(X+1)/2-1][t]=U[(X+1)/2][t]= 2*(1-L)*U[x][t-1]+L*U[x][t-1]+L*U[x-1][t-1]-U[x][t-2];	
+	}
+
+
+}
+else{
+printf(" el numero de filas es impar\n");
+	for(t=2;t<=T+1;t++){
+
+		for(x=1;x<=X/2-1;x++){
+			// y aqui igual, metodo normal para todas las filas
+			U[x][t]= 2*(1-L)*U[x][t-1]+L*U[x+1][t-1]+L*U[x-1][t-1]-U[x][t-2];
+			U[X-x][t]=U[x][t];
+		}
+	// menos para esta que es la especial
+	U[X/2][t]= 2*(1-L)*U[x][t-1]+L*U[x-1][t-1]+L*U[x-1][t-1]-U[x][t-2];	
+	}
+}
+
+// ESTO ES POR SI TE APETECE PINTAR LA MATRIZ, PERO VAMOS QUE SI ES GRANDE DEJALO ASI MEJOR ;)
+//for(x=0;x<=X;x++){
+//for(t=0;t<=T+1;t++){printf("%e \tab",U[x][t]);}
+//printf("\n");}
+
+
+
+// obtain checksum of final state
+
+S=0;
+
+	for(x=0;x<=X;x++){
+	S=S+U[x][T+1];
+	}
+		
+
+printf("CheckSum of the last Column = %e\n", S);
+
+}
