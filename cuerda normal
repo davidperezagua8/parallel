@@ -1,0 +1,50 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define X 101
+#define T 101
+
+static double U[X+1][T+2];
+// declare matrix U
+int main()
+{
+int
+t, x;
+//change double by float
+float L= 0.345678, R, S;
+
+
+// initialize positions of matrix U
+for (x=1; x<X; x++)
+{ 
+U[x][0] = sin(x*M_PI/(double)X); U[x][1] = U[x][0] * cos(M_PI /(double)T);
+ }
+for (t=0; t<=T+1; t++)
+{ 
+U[0][t] = U[X][t] = 0.0; 
+}
+//for(x=0;x<=X;x++){
+//for(t=0;t<=T+1;t++){printf("%e \tab",U[x][t]);}
+//printf("\n");}
+
+//printf("\n");
+//printf("\n");
+// Program Body
+for(t=2;t<=T+1;t++){
+	for(x=1;x<X;x++){
+		
+	U[x][t]= 2*(1-L)*U[x][t-1]+L*U[x+1][t-1]+L*U[x-1][t-1]-U[x][t-2];
+	}
+}
+//for(x=0;x<=X;x++){
+//for(t=0;t<=T+1;t++){printf("%e \tab",U[x][t]);}
+//printf("\n");}
+// obtain checksum of final state
+R=0;
+S=0;
+for(t=0;t<=T;t++){S=S+U[X][t];}
+for(x=0;x<=X;x++){S=S+U[x][T+1];}
+
+printf("CheckSum of the last Column = %e\n", S);
+printf("CheckSum of the last row = %e\n", R);
+}
